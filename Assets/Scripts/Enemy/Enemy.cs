@@ -10,13 +10,14 @@ public class Enemy : MonoBehaviour, IEnemy
     [SerializeField] private float movingSpeed = 1f;
 
     private Rigidbody2D _rb;
-    private Boolean _active = true;
+    private float _currentPlayerDistance;
 
     private EnemyState _currentState;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _currentPlayerDistance = DistanceToPlayer();
         
         _currentState = new IdleState(this);
         _currentState.Enter();
@@ -24,7 +25,10 @@ public class Enemy : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (player == null)
+
+        _currentState?.FixedUpdate();
+
+        /*if (player == null)
         {
             return;
         }
@@ -32,7 +36,7 @@ public class Enemy : MonoBehaviour, IEnemy
         float distanceToPlayer = math.abs(
             Vector2.Distance(transform.position, player.position));
 
-        Debug.Log(distanceToPlayer);
+        //Debug.Log(distanceToPlayer);
 
         if (distanceToPlayer < detectionDistance && _active == true)
         {
@@ -45,18 +49,22 @@ public class Enemy : MonoBehaviour, IEnemy
         else if (_active == false)
         {
             return;
-        }
+        }*/
     }
 
     private void Update() {
+        _currentPlayerDistance = DistanceToPlayer();
         _currentState.Update();
     }
 
-    private void MoveToPlayer()
+    public void MoveToPlayer()
     {
         Vector2 direction = ((Vector2)player.position - (Vector2)transform.position).normalized;
         _rb.linearVelocity = direction * movingSpeed;
     }
+
+    private float DistanceToPlayer() => Vector2.Distance(transform.position, player.position);        
+    
 
     public void ChangeState(EnemyState newState)
     {
@@ -65,13 +73,14 @@ public class Enemy : MonoBehaviour, IEnemy
         _currentState.Enter();
     }
     
-    public void ChasePlayer()
+  
+    public Boolean PlayerDetected()
     {
-        
-    }
+        if(_currentPlayerDistance < detectionDistance)
+        {
+            return true;
+        }
 
-    public void Idling()
-    {
-        
+        return false;    
     }
 }
