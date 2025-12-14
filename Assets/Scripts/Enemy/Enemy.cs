@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IEnemy
 {
     [SerializeField] private Transform player;
     [SerializeField] private float detectionDistance = 5f;
@@ -64,6 +64,14 @@ public class Enemy : MonoBehaviour
         _currentState = newState;
         _currentState.Enter();
     }
-   
+    
+    public void Chasing()
+    {
+        
+    }
 
+    public void Idling()
+    {
+        
+    }
 }
