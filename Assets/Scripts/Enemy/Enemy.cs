@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour, IEnemy
         _currentState.Enter();
     }
     
-    public void Chasing()
+    public void ChasePlayer()
     {
         
     }

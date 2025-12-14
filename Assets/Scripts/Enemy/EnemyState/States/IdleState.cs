@@ -1,4 +1,4 @@
-public class IdleState : EnemyState
+public class IdleState : EnemyState, IEnemyState
 {
     public IdleState(Enemy enemy) : base(enemy) { }
     

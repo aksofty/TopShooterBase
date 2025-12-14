@@ -1,4 +1,4 @@
 public interface IEnemy {
-    void Chasing(); 
+    void ChasePlayer(); 
     void Idling();
 }

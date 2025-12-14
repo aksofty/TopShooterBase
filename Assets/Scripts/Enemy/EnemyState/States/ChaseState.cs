@@ -1,4 +1,4 @@
-public class ChaseState : EnemyState
+public class ChaseState : EnemyState, IEnemyState
 {
     public ChaseState(Enemy enemy) : base(enemy) { }
     
