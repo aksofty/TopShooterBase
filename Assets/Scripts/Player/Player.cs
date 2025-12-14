@@ -3,8 +3,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float movingSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 5f;
 
-    private Vector2 _movement;
+    private float _rotateInput;
+    private float _moveInput;
 
     private Rigidbody2D _rb;
 
@@ -14,13 +16,19 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        _movement = new Vector2(
-            Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        _moveInput = Input.GetAxisRaw("Vertical");
+        _rotateInput = Input.GetAxisRaw("Horizontal");
     }
+        
 
     private void FixedUpdate()
     {
-        Debug.Log(_movement);
-        _rb.linearVelocity = _movement * movingSpeed;
+        _rb.MoveRotation(
+            _rb.rotation - _rotateInput * rotationSpeed);
+        
+        Vector2 moveVector = transform.up * _moveInput;
+        _rb.linearVelocity = moveVector * movingSpeed;
+
+        Debug.Log(transform.up);        
     }
 }
