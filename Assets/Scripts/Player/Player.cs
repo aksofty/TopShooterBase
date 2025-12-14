@@ -29,6 +29,6 @@ public class Player : MonoBehaviour
         Vector2 moveVector = transform.up * _moveInput;
         _rb.linearVelocity = moveVector * movingSpeed;
 
-        Debug.Log(transform.up);        
+        //Debug.Log(transform.up);        
     }
 }
