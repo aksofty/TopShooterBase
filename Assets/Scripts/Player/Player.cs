@@ -1,6 +1,9 @@
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
+
 public class Player : MonoBehaviour
 {
     [SerializeField] private float movingSpeed = 5f;
@@ -9,10 +12,9 @@ public class Player : MonoBehaviour
     private float _rotateInput;
     private float _moveInput;
     private Rigidbody2D _rb;
+    private Boolean _paused = false;
 
-    private Boolean _died = false;
-
-    private void OnEnable()
+    /*private void OnEnable()
     {
         EventBus.OnGameOver += PlayerDied;
     }
@@ -20,7 +22,7 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         EventBus.OnGameOver -= PlayerDied;
-    }
+    }*/
 
     private void Awake()
     {
@@ -29,32 +31,48 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (_died)
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            return;
+            if (_paused)
+            {
+                _paused = false;
+                EventBus.GameResumed();
+            }
+            else
+            {
+                _paused = true;
+                EventBus.GamePaused();
+            }
+
         }
+
         _moveInput = Input.GetAxisRaw("Vertical");
         _rotateInput = Input.GetAxisRaw("Horizontal");
     }
 
     private void FixedUpdate()
     {
-        if (_died)
-        {
-            return;
-        }
-
         _rb.MoveRotation(
             _rb.rotation - _rotateInput * rotationSpeed);
 
         Vector2 moveVector = transform.up * _moveInput;
         _rb.linearVelocity = moveVector * movingSpeed;
-
     }
 
-    private void PlayerDied()
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Enemy enemy = other.GetComponent<Enemy>();
+        if (enemy != null)
+        {
+            Debug.Log("Столкновение с врагом!");
+            EventBus.GameOver();
+        }
+    }
+
+    /*private void PlayerDied()
     {
         _died = true;
         Time.timeScale = 0f;
-    }
+    }*/
 }

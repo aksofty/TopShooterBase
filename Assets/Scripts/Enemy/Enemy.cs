@@ -2,6 +2,9 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
+
 public class Enemy : MonoBehaviour, IEnemy
 {
     [SerializeField] private Transform player;
@@ -9,12 +12,9 @@ public class Enemy : MonoBehaviour, IEnemy
     [SerializeField] private float catchDistance = 0.1f;
     [SerializeField] private float movingSpeed = 1f;
 
-
     private Rigidbody2D _rb;
     private float _currentPlayerDistance;
     private EnemyState _currentState;
-
-    private Boolean _catched = false;
 
     private void Awake()
     {
@@ -27,11 +27,6 @@ public class Enemy : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
-        if (_catched)
-        {
-            return;
-        }
-
         _currentState?.FixedUpdate();
     }
 
@@ -53,12 +48,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         _rb.MoveRotation(targetAngle - 90f);
-    }
-
-    public void StopMove()
-    {
-        _rb.linearVelocity = Vector2.zero;
-    }
+    }    
 
 
     private Vector2 PlayerDirection() => (player.position - transform.position).normalized;
@@ -84,13 +74,4 @@ public class Enemy : MonoBehaviour, IEnemy
         return false;
     }
 
-    public Boolean PlayerCatched()
-    {
-        if (_currentPlayerDistance <= catchDistance)
-        {
-            return true;
-        }
-
-        return false;
-    }
 }

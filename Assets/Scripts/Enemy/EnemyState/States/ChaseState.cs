@@ -15,14 +15,7 @@ public class ChaseState : EnemyState, IEnemyState
 
     public override void FixedUpdate()
     {
-
-        if (enemy.PlayerCatched())
-        {
-            enemy.ChangeState(new CatchState(enemy));
-            return;
-        }
-
-        enemy.MoveToPlayer();
+         enemy.MoveToPlayer();
     }
 
     public override void Exit()
