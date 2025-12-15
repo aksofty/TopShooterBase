@@ -6,8 +6,9 @@ public class CatchState : EnemyState, IEnemyState
 
     public override void Enter()
     {
-        Debug.Log("Enter Catch");
         enemy.StopMove();
+        //EventBus.PlayerCatched(enemy);
+        EventBus.GameOver();
     }
 
     public override void Update()

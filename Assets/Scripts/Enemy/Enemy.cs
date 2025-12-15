@@ -57,9 +57,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public void StopMove()
     {
-
         _rb.linearVelocity = Vector2.zero;
-
     }
 
 
