@@ -866,6 +866,7 @@ MonoBehaviour:
   detectionDistance: 2
   catchDistance: 0.1
   movingSpeed: 2
+  rotationSpeed: 5
 --- !u!50 &2079226932
 Rigidbody2D:
   serializedVersion: 5
