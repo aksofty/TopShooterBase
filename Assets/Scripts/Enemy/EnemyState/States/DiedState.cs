@@ -1,13 +1,12 @@
-using UnityEngine;
+using System.Diagnostics;
 
-public class CatchState : EnemyState, IEnemyState
+public class DiedState : EnemyState, IEnemyState
 {
-    public CatchState(Enemy enemy) : base(enemy) { }
+    public DiedState(Enemy enemy) : base(enemy) { }
 
     public override void Enter()
     {
-        Debug.Log("Enter Catch");
-        enemy.StopMove();
+
     }
 
     public override void Update()

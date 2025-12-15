@@ -8,11 +8,13 @@ public class Enemy : MonoBehaviour, IEnemy
     [SerializeField] private float detectionDistance = 5f;
     [SerializeField] private float catchDistance = 0.1f;
     [SerializeField] private float movingSpeed = 1f;
-    [SerializeField] private float rotationSpeed = 5f;
+
 
     private Rigidbody2D _rb;
     private float _currentPlayerDistance;
     private EnemyState _currentState;
+
+    private Boolean _catched = false;
 
     private void Awake()
     {
@@ -25,13 +27,18 @@ public class Enemy : MonoBehaviour, IEnemy
 
     private void FixedUpdate()
     {
+        if (_catched)
+        {
+            return;
+        }
+
         _currentState?.FixedUpdate();
     }
 
     private void Update()
     {
         _currentPlayerDistance = DistanceToPlayer();
-        _currentState.Update();
+        _currentState?.Update();
     }
 
     public void MoveToPlayer()
@@ -43,9 +50,18 @@ public class Enemy : MonoBehaviour, IEnemy
 
     private void RotateTo(Vector2 direction)
     {
+
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         _rb.MoveRotation(targetAngle - 90f);
     }
+
+    public void StopMove()
+    {
+
+        _rb.linearVelocity = Vector2.zero;
+
+    }
+
 
     private Vector2 PlayerDirection() => (player.position - transform.position).normalized;
     private float DistanceToPlayer() => Vector2.Distance(transform.position, player.position);
@@ -61,7 +77,18 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public Boolean PlayerDetected()
     {
-        if (_currentPlayerDistance < detectionDistance)
+
+        if (_currentPlayerDistance <= detectionDistance)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean PlayerCatched()
+    {
+        if (_currentPlayerDistance <= catchDistance)
         {
             return true;
         }

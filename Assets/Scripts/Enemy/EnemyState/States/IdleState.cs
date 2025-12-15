@@ -16,6 +16,7 @@ public class IdleState : EnemyState, IEnemyState
 
     public override void FixedUpdate()
     {
+
         if (enemy.PlayerDetected())
         {
             enemy.ChangeState(new ChaseState(enemy));

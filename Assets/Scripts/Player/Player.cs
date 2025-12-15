@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -7,8 +8,8 @@ public class Player : MonoBehaviour
 
     private float _rotateInput;
     private float _moveInput;
-
     private Rigidbody2D _rb;
+    private Boolean _catched = false;
 
     private void Awake()
     {
@@ -28,7 +29,6 @@ public class Player : MonoBehaviour
         
         Vector2 moveVector = transform.up * _moveInput;
         _rb.linearVelocity = moveVector * movingSpeed;
-
-        //Debug.Log(transform.up);        
+      
     }
 }
