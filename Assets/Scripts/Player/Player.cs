@@ -14,17 +14,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rb;
     private Boolean _paused = false;
 
-    /*private void OnEnable()
-    {
-        EventBus.OnGameOver += PlayerDied;
-    }
-
-    private void OnDisable()
-    {
-        EventBus.OnGameOver -= PlayerDied;
-    }*/
-
-    private void Awake()
+     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
     }
@@ -34,17 +24,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (_paused)
-            {
-                _paused = false;
-                EventBus.GameResumed();
-            }
-            else
-            {
-                _paused = true;
-                EventBus.GamePaused();
-            }
-
+            GameManager.Instance.PauseResume();
         }
 
         _moveInput = Input.GetAxisRaw("Vertical");
@@ -66,7 +46,7 @@ public class Player : MonoBehaviour
         if (enemy != null)
         {
             Debug.Log("Столкновение с врагом!");
-            EventBus.GameOver();
+            GameManager.Instance.GameOver();
         }
     }
 
