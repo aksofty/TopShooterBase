@@ -738,6 +738,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc97ac70babf5b4db10fb11323bcde7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  settings: {fileID: 11400000, guid: 4a3b3f5847a80b743a4314a8a78340f4, type: 2}
+  _player: {fileID: 2114918165}
 --- !u!1 &987518392
 GameObject:
   m_ObjectHideFlags: 0
@@ -907,10 +909,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffcf1e09c02f700409e495c5b902f903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  player: {fileID: 2114918165}
-  detectionDistance: 4
-  catchDistance: 0.5
-  movingSpeed: 2
 --- !u!50 &2079226932
 Rigidbody2D:
   serializedVersion: 5
@@ -1050,8 +1048,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   movingSpeed: 5
   rotationSpeed: 6
-  playgroundWidth: 16
-  playgroundHeight: 8
 --- !u!58 &2114918168
 CircleCollider2D:
   m_ObjectHideFlags: 0

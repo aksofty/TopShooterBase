@@ -7,22 +7,27 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IEnemy
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private float detectionDistance = 5f;
-    [SerializeField] private float catchDistance = 0.1f;
-    [SerializeField] private float movingSpeed = 1f;
+
+    private float _detectionDistance = 5f;
+    private float _movingSpeed = 1f;
 
     private Rigidbody2D _rb;
     private float _currentPlayerDistance;
     private EnemyState _currentState;
+    private Transform _player;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+
+        _player = GameManager.Instance.player;
         _currentPlayerDistance = DistanceToPlayer();
 
         _currentState = new IdleState(this);
         _currentState.Enter();
+
+        _detectionDistance = GameManager.Instance.enemyChasingDistance;
+        _movingSpeed = GameManager.Instance.enemyMovingSpeed;
     }
 
     private void FixedUpdate()
@@ -38,8 +43,8 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public void MoveToPlayer()
     {
-        Vector2 direction = ((Vector2)player.position - (Vector2)transform.position).normalized;
-        _rb.linearVelocity = direction * movingSpeed;
+        Vector2 direction = (_player.position - transform.position).normalized;
+        _rb.linearVelocity = direction * _movingSpeed;
         RotateTo(direction);
     }
 
@@ -51,9 +56,8 @@ public class Enemy : MonoBehaviour, IEnemy
     }    
 
 
-    private Vector2 PlayerDirection() => (player.position - transform.position).normalized;
-    private float DistanceToPlayer() => Vector2.Distance(transform.position, player.position);
-
+    private Vector2 PlayerDirection() => (_player.position - transform.position).normalized;
+    private float DistanceToPlayer() => Vector2.Distance(transform.position, _player.position);
 
     public void ChangeState(EnemyState newState)
     {
@@ -62,11 +66,10 @@ public class Enemy : MonoBehaviour, IEnemy
         _currentState.Enter();
     }
 
-
     public Boolean PlayerDetected()
     {
 
-        if (_currentPlayerDistance <= detectionDistance)
+        if (_currentPlayerDistance <= _detectionDistance)
         {
             return true;
         }

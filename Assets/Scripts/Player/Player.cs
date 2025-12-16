@@ -6,11 +6,17 @@ using System;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private float movingSpeed = 5f;
-    [SerializeField] private float rotationSpeed = 5f;
+    //[SerializeField] private float movingSpeed = 5f;
+    //[SerializeField] private float rotationSpeed = 5f;
 
-    [SerializeField] private float playgroundWidth = 4f;
-    [SerializeField] private float playgroundHeight = 6f;
+    //[SerializeField] private float playgroundWidth = 4f;
+    //[SerializeField] private float playgroundHeight = 6f;
+
+    private float _movingSpeed;
+    private float _rotationSpeed;
+
+    private float _playgroundWidth;
+    private float _playgroundHeight;
 
     private float _rotateInput;
     private float _moveInput;
@@ -18,6 +24,11 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        _movingSpeed = GameManager.Instance.playerMovingSpeed;
+        _rotationSpeed = GameManager.Instance.playerRotationSpeed;
+        _playgroundWidth = GameManager.Instance.playgroundWidth;
+        _playgroundHeight = GameManager.Instance.playgroundHeight;
+
         _rb = GetComponent<Rigidbody2D>();
     }
 
@@ -37,22 +48,20 @@ public class Player : MonoBehaviour
     {
 
         _rb.MoveRotation(
-            _rb.rotation - _rotateInput * rotationSpeed);
+            _rb.rotation - _rotateInput * _rotationSpeed);
 
         Vector2 moveVector = transform.up * _moveInput;
-        _rb.linearVelocity = moveVector * movingSpeed;
+        _rb.linearVelocity = moveVector * _movingSpeed;
 
 
 
-        float xPosition = Mathf.Clamp(transform.position.x, -playgroundWidth / 2, playgroundWidth / 2);
-        float yPosition = Mathf.Clamp(transform.position.y, -playgroundHeight / 2, playgroundHeight / 2);
+        float xPosition = Mathf.Clamp(transform.position.x, -_playgroundWidth / 2f, _playgroundWidth / 2f);
+        float yPosition = Mathf.Clamp(transform.position.y, -_playgroundHeight / 2f, _playgroundHeight / 2f);
 
         if (transform.position.x != xPosition || transform.position.y != yPosition)
         {
             transform.position = new Vector2(xPosition, yPosition);
-            Debug.Log("wall");
         }
-
 
         /*transform.position = new Vector2(
             Mathf.Clamp(transform.position.x, -playgroundWidth / 2, playgroundWidth / 2),
@@ -70,10 +79,5 @@ public class Player : MonoBehaviour
             GameManager.Instance.GameOver();
         }
     }
-
-    /*private void PlayerDied()
-    {
-        _died = true;
-        Time.timeScale = 0f;
-    }*/
+    
 }

@@ -3,13 +3,19 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    [SerializeField] private GameSettings settings;
+    [SerializeField] private Transform _player;
+
     public static GameManager Instance { get; private set; }
 
     private Boolean _isPaused = false;
     private Boolean _isGameOver = false;
 
+
     private void Awake()
     {
+
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -18,12 +24,16 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
 
-        // Позволяет объекту не удаляться при переходе между сценами
         DontDestroyOnLoad(gameObject);
     }
 
     public void PauseResume()
     {
+        if (_isGameOver)
+        {
+            return;
+        }
+
         _isPaused = !_isPaused;
         Time.timeScale = _isPaused ? 0f : 1f;
         Cursor.visible = _isPaused;
@@ -36,10 +46,21 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        _isGameOver = false;
-        Time.timeScale =  0f;
+        _isGameOver = true;
+        Time.timeScale = 0f;
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;   
+        Cursor.lockState = CursorLockMode.None;
     }
+
+    public Transform player => _player;
+
+    public float playerMovingSpeed => settings.playerMovingSpeed;
+    public float playerRotationSpeed => settings.playerRotationSpeed;
+
+    public float playgroundWidth => settings.playgroundWidth;
+    public float playgroundHeight => settings.playgroundHeight;
+
+    public float enemyChasingDistance => settings.enemyChasingDistance;
+    public float enemyMovingSpeed => settings.enemyMovingSpeed;
 }
 
