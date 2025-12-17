@@ -20,6 +20,10 @@ public class Player : MonoBehaviour
 
     private float _rotateInput;
     private float _moveInput;
+
+    private float _horizontalInput;
+    private float _verticalInput;
+
     private Rigidbody2D _rb;
 
     private void Awake()
@@ -42,15 +46,21 @@ public class Player : MonoBehaviour
 
         _moveInput = Input.GetAxisRaw("Vertical");
         _rotateInput = Input.GetAxisRaw("Horizontal");
+
+        _horizontalInput = Input.GetAxisRaw("Horizontal");
+        _verticalInput = Input.GetAxisRaw("Vertical");
     }
 
     private void FixedUpdate()
     {
 
-        _rb.MoveRotation(
-            _rb.rotation - _rotateInput * _rotationSpeed);
+        /*_rb.MoveRotation(
+            _rb.rotation - _rotateInput * _rotationSpeed);*/
 
-        Vector2 moveVector = transform.up * _moveInput;
+        //Vector2 moveVector = transform.up * _moveInput;
+
+        Vector2 moveVector = new Vector2(_horizontalInput, _verticalInput).normalized;
+
         _rb.linearVelocity = moveVector * _movingSpeed;
 
 
@@ -79,5 +89,5 @@ public class Player : MonoBehaviour
             GameManager.Instance.GameOver();
         }
     }
-    
+
 }

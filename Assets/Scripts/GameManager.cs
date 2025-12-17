@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
+    public Boolean isPaused => _isPaused;
+
     public Transform player => _player;
 
     public float playerMovingSpeed => settings.playerMovingSpeed;
