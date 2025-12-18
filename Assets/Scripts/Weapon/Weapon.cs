@@ -7,26 +7,59 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float rotationSpeed = 0.1f;
 
     private Vector2 _direction;
+    private Transform _player;
 
     private void Awake()
     {
         _direction = Vector2.zero;
+        _player = GameManager.Instance.player;
     }
 
     private void Update()
     {
-        _direction = (aim.position - transform.position).normalized;
+        _direction = (aim.position - _player.position).normalized;
+
+        Debug.DrawRay((Vector2)_player.position + _direction, _direction * 10f);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Fire();
+        }
+
+    }
+
+    private void Fire()
+    {
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)_player.position + _direction, _direction * 2f, 10f);
+        
+        if (hit.collider != null)
+        {
+            Debug.LogFormat(hit.collider.gameObject.name);
+            if (hit.collider.gameObject.GetComponent<Enemy>() != null)
+            {
+                Debug.Log("Enemy die!");
+                
+                hit.collider.gameObject.SetActive(false);
+                Destroy(hit.collider.gameObject);
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        if(GameManager.Instance.isPaused)
+        if (GameManager.Instance.isPaused)
         {
             return;
         }
+        RotateWeapon();
+    }
 
+
+
+    private void RotateWeapon()
+    {
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle - 90f);   
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed);     
+        Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed);
     }
 }

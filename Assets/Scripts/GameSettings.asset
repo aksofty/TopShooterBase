@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b44becd27390814ab79fb5baed53d74, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
-  player: {fileID: 0}
   playerMovingSpeed: 5
-  playerRotationSpeed: 5
   playgroundWidth: 16
   playgroundHeight: 8
   enemyChasingDistance: 4
-  enemyMovingSpeed: 2
+  enemyMovingSpeed: 1

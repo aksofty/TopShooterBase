@@ -14,10 +14,11 @@ public class Enemy : MonoBehaviour, IEnemy
     private Rigidbody2D _rb;
     private float _currentPlayerDistance;
     private EnemyState _currentState;
-    private Transform _player;
+    private Transform _player;    
 
     private void Awake()
-    {
+    { 
+        Debug.Log("Awake enemy");       
         _rb = GetComponent<Rigidbody2D>();
 
         _player = GameManager.Instance.player;
@@ -53,7 +54,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         _rb.MoveRotation(targetAngle - 90f);
-    }    
+    }
 
 
     private Vector2 PlayerDirection() => (_player.position - transform.position).normalized;

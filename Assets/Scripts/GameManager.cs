@@ -6,15 +6,21 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameSettings settings;
     [SerializeField] private Transform _player;
+    [SerializeField] private GameObject _level;
 
     public static GameManager Instance { get; private set; }
 
     private Boolean _isPaused = false;
-    private Boolean _isGameOver = false;
+    private Boolean _isGameOver = false; 
 
+    private void InitLevel()
+    {
+        _level.SetActive(true);
+    }
 
     private void Awake()
     {
+        Debug.Log("Awake gamemanager");  
 
         if (Instance != null && Instance != this)
         {
@@ -25,6 +31,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
+
+        InitLevel();
     }
 
     public void PauseResume()
@@ -57,7 +65,6 @@ public class GameManager : MonoBehaviour
     public Transform player => _player;
 
     public float playerMovingSpeed => settings.playerMovingSpeed;
-    public float playerRotationSpeed => settings.playerRotationSpeed;
 
     public float playgroundWidth => settings.playgroundWidth;
     public float playgroundHeight => settings.playgroundHeight;

@@ -6,7 +6,6 @@ public class GameSettings : ScriptableObject
 
     [Header("Настройки игрока")]
     public float playerMovingSpeed = 5f;
-    public float playerRotationSpeed = 5f;
 
     [Header("Настройки игрового поля")]
     public float playgroundWidth = 16f;
