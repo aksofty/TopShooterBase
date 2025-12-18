@@ -5,22 +5,34 @@ public class GameManager : MonoBehaviour
 {
 
     [SerializeField] private GameSettings settings;
-    [SerializeField] private Transform _player;
-    [SerializeField] private GameObject _level;
+    //[SerializeField] private GameObject _level;
 
     public static GameManager Instance { get; private set; }
+    private Transform _player;
 
     private Boolean _isPaused = false;
-    private Boolean _isGameOver = false; 
+    private Boolean _isGameOver = false;
 
     private void InitLevel()
     {
-        _level.SetActive(true);
+        /* загрузка уровня из json файла координаты игрока, врагов, вотор и тд */
+        GameObject playerObject = Instantiate(settings.playerPrefab, Vector2.zero, Quaternion.identity);
+
+        if(playerObject != null)
+        {
+            _player = playerObject.transform;
+
+            Instantiate(settings.enemyPrefab, new Vector2(5,3), Quaternion.identity);
+            Instantiate(settings.enemyPrefab, new Vector2(5,-3), Quaternion.identity);
+        }
+        
+        
+        //_level.SetActive(true);
     }
 
     private void Awake()
     {
-        Debug.Log("Awake gamemanager");  
+        Debug.Log("Awake gamemanager");
 
         if (Instance != null && Instance != this)
         {

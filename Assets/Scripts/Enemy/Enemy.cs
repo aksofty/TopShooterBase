@@ -1,5 +1,4 @@
 using System;
-using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -69,7 +68,6 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public Boolean PlayerDetected()
     {
-
         if (_currentPlayerDistance <= _detectionDistance)
         {
             return true;

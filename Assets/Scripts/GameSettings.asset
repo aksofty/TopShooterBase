@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b44becd27390814ab79fb5baed53d74, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
+  playerPrefab: {fileID: 9140375951365326959, guid: ef37a03ad9deb1d40ab540949af60356, type: 3}
+  enemyPrefab: {fileID: 6562368978968994532, guid: 3a167cbf355f89c44b39d554be8f7ac7, type: 3}
   playerMovingSpeed: 5
   playgroundWidth: 16
   playgroundHeight: 8

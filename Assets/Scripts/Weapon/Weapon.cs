@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] private Transform aim;
+
     [SerializeField] private float rotationSpeed = 0.1f;
 
     private Vector2 _direction;
@@ -12,14 +12,14 @@ public class Weapon : MonoBehaviour
     private void Awake()
     {
         _direction = Vector2.zero;
-        _player = GameManager.Instance.player;
     }
 
     private void Update()
     {
-        _direction = (aim.position - _player.position).normalized;
+        Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _direction = (cursorPosition - (Vector2)transform.position).normalized;
 
-        Debug.DrawRay((Vector2)_player.position + _direction, _direction * 10f);
+        Debug.DrawRay((Vector2)transform.position + _direction, _direction * 10f);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -30,7 +30,7 @@ public class Weapon : MonoBehaviour
 
     private void Fire()
     {
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)_player.position + _direction, _direction * 2f, 10f);
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + _direction, _direction * 2f, 10f);
         
         if (hit.collider != null)
         {
@@ -38,7 +38,7 @@ public class Weapon : MonoBehaviour
             if (hit.collider.gameObject.GetComponent<Enemy>() != null)
             {
                 Debug.Log("Enemy die!");
-                
+
                 hit.collider.gameObject.SetActive(false);
                 Destroy(hit.collider.gameObject);
             }
@@ -53,7 +53,6 @@ public class Weapon : MonoBehaviour
         }
         RotateWeapon();
     }
-
 
 
     private void RotateWeapon()
