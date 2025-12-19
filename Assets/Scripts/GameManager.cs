@@ -1,34 +1,18 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 
     [SerializeField] private GameSettings settings;
-    //[SerializeField] private GameObject _level;
 
     public static GameManager Instance { get; private set; }
     private Transform _player;
 
     private Boolean _isPaused = false;
     private Boolean _isGameOver = false;
-
-    private void InitLevel()
-    {
-        /* загрузка уровня из json файла координаты игрока, врагов, вотор и тд */
-        GameObject playerObject = Instantiate(settings.playerPrefab, Vector2.zero, Quaternion.identity);
-
-        if(playerObject != null)
-        {
-            _player = playerObject.transform;
-
-            Instantiate(settings.enemyPrefab, new Vector2(5,3), Quaternion.identity);
-            Instantiate(settings.enemyPrefab, new Vector2(5,-3), Quaternion.identity);
-        }
-        
-        
-        //_level.SetActive(true);
-    }
+    
 
     private void Awake()
     {
@@ -44,7 +28,46 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
-        InitLevel();
+        LoadLevel(1);
+    }
+
+    private void LoadLevel(int levelNum)
+    {
+        /* загрузка уровня из json файла координаты игрока, врагов, вотор и тд */
+
+        Level levelData = Resources.Load<Level>("Levels/Level" + levelNum.ToString());
+
+        if (levelData != null)
+        {
+            GameObject playerObject = SpawnPlayer(
+                levelData.playerPosition, levelData.playerRotation);
+
+            if (playerObject != null)
+            {
+                _player = playerObject.transform;
+                SpawnEnemy(levelData.enemyList);
+            }           
+
+        }
+    }
+
+    private GameObject SpawnPlayer(Vector2 spawnPoint, Quaternion rotation)
+    {
+        if (settings.playerPrefab != null && spawnPoint != null)
+        {
+            return Instantiate(settings.playerPrefab, spawnPoint, rotation);
+        }
+        Debug.LogError("Player Prefab or Spawn Point not assigned!");
+        return null;
+    }    
+
+    private void SpawnEnemy(List<EnemyData> enemyList)
+    {
+        foreach (EnemyData enemyData in enemyList)
+        {
+            Instantiate(
+                enemyData.prefab, enemyData.position, enemyData.rotation);
+        }
     }
 
     public void PauseResume()
