@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameSettings settings;
 
     public static GameManager Instance { get; private set; }
-    private Transform _player;
+    //private Transform _player;
+
+    private GameObject _player;
 
     private Boolean _isPaused = false;
     private Boolean _isGameOver = false;
@@ -44,7 +46,8 @@ public class GameManager : MonoBehaviour
 
             if (playerObject != null)
             {
-                _player = playerObject.transform;
+                //_player = playerObject.transform;
+                _player = playerObject;
                 SpawnEnemy(levelData.enemyList);
             }           
 
@@ -97,7 +100,12 @@ public class GameManager : MonoBehaviour
 
     public Boolean isPaused => _isPaused;
 
-    public Transform player => _player;
+    //public Transform player => _player;
+    public GameObject player => _player;
+
+    public float weaponFiringRange => settings.weaponFiringRange;
+    public float minWeaponFiringRange => settings.minWeaponFiringRange;
+    public float weaponRotationSpeed => settings.weaponRotationSpeed;
 
     public float playerMovingSpeed => settings.playerMovingSpeed;
 

@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour, IEnemy
     private Rigidbody2D _rb;
     private float _currentPlayerDistance;
     private EnemyState _currentState;
-    private Transform _player;    
+    private GameObject _player;    
 
     private void Awake()
     { 
@@ -43,7 +43,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public void MoveToPlayer()
     {
-        Vector2 direction = (_player.position - transform.position).normalized;
+        Vector2 direction = (_player.transform.position - transform.position).normalized;
         _rb.linearVelocity = direction * _movingSpeed;
         RotateTo(direction);
     }
@@ -56,8 +56,8 @@ public class Enemy : MonoBehaviour, IEnemy
     }
 
 
-    private Vector2 PlayerDirection() => (_player.position - transform.position).normalized;
-    private float DistanceToPlayer() => Vector2.Distance(transform.position, _player.position);
+    private Vector2 PlayerDirection() => (_player.transform.position - transform.position).normalized;
+    private float DistanceToPlayer() => Vector2.Distance(transform.position, _player.transform.position);
 
     public void ChangeState(EnemyState newState)
     {

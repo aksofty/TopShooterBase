@@ -4,13 +4,13 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
 
-    [SerializeField] private float rotationSpeed = 0.1f;
-
+    private float _rotationSpeed;
     private Vector2 _direction;
     private Transform _player;
 
     private void Awake()
     {
+        _rotationSpeed = GameManager.Instance.weaponRotationSpeed;
         _direction = Vector2.zero;
     }
 
@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _direction = (cursorPosition - (Vector2)transform.position).normalized;
 
-        Debug.DrawRay((Vector2)transform.position + _direction, _direction * 10f);
+        //Debug.DrawRay((Vector2)transform.position + _direction, _direction * 10f);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -59,6 +59,6 @@ public class Weapon : MonoBehaviour
     {
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         Quaternion targetRotation = Quaternion.Euler(0f, 0f, angle - 90f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed);
     }
 }
