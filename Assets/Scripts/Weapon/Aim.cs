@@ -2,18 +2,17 @@ using UnityEngine;
 
 public class Aim : MonoBehaviour
 {
-
     private Vector2 _cursorPosition;
     private GameObject _player;
     private float _firingRange;
-    private float _minFiringRange;
+    private float _minFiringRange;    
 
     private void Awake()
     {
         _player = GameManager.Instance.player;
         _firingRange = GameManager.Instance.weaponFiringRange;
         _minFiringRange = GameManager.Instance.minWeaponFiringRange;
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     private void LateUpdate()

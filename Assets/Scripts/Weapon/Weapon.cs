@@ -6,32 +6,57 @@ public class Weapon : MonoBehaviour
 
     private float _rotationSpeed;
     private Vector2 _direction;
-    private Transform _player;
+    private float _firingRange;
+    private float _minFiringRange;
+
+
 
     private void Awake()
     {
         _rotationSpeed = GameManager.Instance.weaponRotationSpeed;
         _direction = Vector2.zero;
+        _firingRange = GameManager.Instance.weaponFiringRange;
+        _minFiringRange = GameManager.Instance.minWeaponFiringRange;
     }
 
     private void Update()
     {
+        if (GameManager.Instance.isPaused)
+        {
+            return;
+        }
+
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _direction = (cursorPosition - (Vector2)transform.position).normalized;
 
-        //Debug.DrawRay((Vector2)transform.position + _direction, _direction * 10f);
+        //Debug.DrawRay((Vector2)transform.position + _direction * _minFiringRange, _direction * (_firingRange - _minFiringRange));
 
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Fire");
             Fire();
         }
 
     }
 
+    private void FixedUpdate()
+    {
+        if (GameManager.Instance.isPaused)
+        {
+            return;
+        }
+
+        RotateWeapon();
+    }
+
     private void Fire()
     {
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + _direction, _direction * 2f, 10f);
-        
+
+        RaycastHit2D hit = Physics2D.Raycast(
+            (Vector2)transform.position + _direction * _minFiringRange,
+            _direction, _firingRange - _minFiringRange);
+
+
         if (hit.collider != null)
         {
             Debug.LogFormat(hit.collider.gameObject.name);
@@ -43,16 +68,7 @@ public class Weapon : MonoBehaviour
                 Destroy(hit.collider.gameObject);
             }
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (GameManager.Instance.isPaused)
-        {
-            return;
-        }
-        RotateWeapon();
-    }
+    }  
 
 
     private void RotateWeapon()

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameSettings
   playerPrefab: {fileID: 9140375951365326959, guid: ef37a03ad9deb1d40ab540949af60356, type: 3}
   playerMovingSpeed: 5
+  aimPrefab: {fileID: 7623894700398296594, guid: 28fa8c3bb938c50448c561212883a7b4, type: 3}
   weaponFiringRange: 5
   minWeaponFiringRange: 1
   weaponRotationSpeed: 0.1

@@ -8,10 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameSettings settings;
 
     public static GameManager Instance { get; private set; }
-    //private Transform _player;
-
     private GameObject _player;
-
     private Boolean _isPaused = false;
     private Boolean _isGameOver = false;
     
@@ -46,8 +43,8 @@ public class GameManager : MonoBehaviour
 
             if (playerObject != null)
             {
-                //_player = playerObject.transform;
                 _player = playerObject;
+                SpawnAim();
                 SpawnEnemy(levelData.enemyList);
             }           
 
@@ -60,16 +57,37 @@ public class GameManager : MonoBehaviour
         {
             return Instantiate(settings.playerPrefab, spawnPoint, rotation);
         }
+
         Debug.LogError("Player Prefab or Spawn Point not assigned!");
         return null;
-    }    
+    } 
+
+    private void SpawnAim()
+    {
+        if (settings.aimPrefab != null)
+        {
+            Instantiate(settings.aimPrefab, Vector2.zero, Quaternion.identity);            
+        }
+        else
+        {
+            Debug.LogError("Aim Prefab not assigned!");    
+        }
+       
+    }      
 
     private void SpawnEnemy(List<EnemyData> enemyList)
     {
-        foreach (EnemyData enemyData in enemyList)
+        if (settings.aimPrefab != null)
         {
-            Instantiate(
-                enemyData.prefab, enemyData.position, enemyData.rotation);
+            foreach (EnemyData enemyData in enemyList)
+            {
+                Instantiate(
+                    enemyData.prefab, enemyData.position, enemyData.rotation);
+            }
+        }
+        else
+        {
+            Debug.LogError("Enemy Prefab not assigned!");   
         }
     }
 
@@ -82,8 +100,8 @@ public class GameManager : MonoBehaviour
 
         _isPaused = !_isPaused;
         Time.timeScale = _isPaused ? 0f : 1f;
-        Cursor.visible = _isPaused;
-        Cursor.lockState = _isPaused ? CursorLockMode.None : CursorLockMode.Locked;
+        //Cursor.visible = _isPaused;
+        //Cursor.lockState = _isPaused ? CursorLockMode.None : CursorLockMode.Locked;
         /*if (pauseMenuUI != null && _isPaused)
         {
             pauseMenuUI.SetActive(false); 
@@ -100,7 +118,6 @@ public class GameManager : MonoBehaviour
 
     public Boolean isPaused => _isPaused;
 
-    //public Transform player => _player;
     public GameObject player => _player;
 
     public float weaponFiringRange => settings.weaponFiringRange;

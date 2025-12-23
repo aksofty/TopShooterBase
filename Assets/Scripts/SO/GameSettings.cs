@@ -8,7 +8,8 @@ public class GameSettings : ScriptableObject
     public GameObject playerPrefab;
     public float playerMovingSpeed = 5f;
 
-    [Header("Настройки оружия")]   
+    [Header("Настройки оружия")]  
+    public GameObject aimPrefab; 
     public float weaponFiringRange = 3f;
     public float minWeaponFiringRange = 0.2f;
     public float weaponRotationSpeed = 0.1f;
