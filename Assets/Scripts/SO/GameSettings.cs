@@ -22,6 +22,7 @@ public class GameSettings : ScriptableObject
     public GameObject enemyPrefab;
     public float enemyChasingDistance = 5f;
     public float enemyMovingSpeed = 1f;
+    public float enemyAttackDistance = 0.2f;
 
 
 }

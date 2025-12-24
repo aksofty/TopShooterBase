@@ -23,3 +23,4 @@ MonoBehaviour:
   enemyPrefab: {fileID: 6562368978968994532, guid: 3a167cbf355f89c44b39d554be8f7ac7, type: 3}
   enemyChasingDistance: 4
   enemyMovingSpeed: 1
+  enemyAttackDistance: 1.2

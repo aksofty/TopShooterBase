@@ -131,5 +131,6 @@ public class GameManager : MonoBehaviour
 
     public float enemyChasingDistance => settings.enemyChasingDistance;
     public float enemyMovingSpeed => settings.enemyMovingSpeed;
+    public float enemyAttackDistance => settings.enemyAttackDistance;
 }
 

@@ -54,9 +54,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    //private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Enemy enemy = other.GetComponent<Enemy>();
+        //Enemy enemy = other.GetComponent<Enemy>();
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();        
         if (enemy != null)
         {
             Debug.Log("Столкновение с врагом!");
